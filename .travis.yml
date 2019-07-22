@@ -43,7 +43,7 @@ matrix:
       addons:
         apt:
           sources: ['ubuntu-toolchain-r-test']
-          packages: ['g++-8', 'g++-8-multilib', 'g++-multilib', 'valgrind', 'expect', 'curl']
+          packages: ['g++', 'g++-multilib', 'valgrind', 'expect', 'curl']
       env:
         - COMP=gcc
 
