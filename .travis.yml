@@ -63,13 +63,13 @@ script:
   #
   # Verify bench number against various builds
   - export CXXFLAGS=-Werror
-  - make clean && make -j2 optimize=no debug=yes build && ../tests/signature.sh $benchref
-  - make clean && make -j2 optimize=no debug=yes build && ../tests/signature.sh $benchref
-  - make clean && make -j2 build && ../tests/signature.sh $benchref
+  - make clean && make -j2 ARCH=x86-64 optimize=no debug=yes build && ../tests/signature.sh $benchref
+  - make clean && make -j2 ARCH=x86-32 optimize=no debug=yes build && ../tests/signature.sh $benchref
+  - make clean && make -j2 ARCH=x86-32 build && ../tests/signature.sh $benchref
 
   # Verify bench number is ONE_PLY independent by doubling its value
   - sed -i'.bak' 's/.*\(ONE_PLY = [0-9]*\),.*/\1 * 2,/g' types.h
-  - make clean && make -j2 build && ../tests/signature.sh $benchref
+  - make clean && make -j2 ARCH=x86-64 build && ../tests/signature.sh $benchref
   #
   # Check perft and reproducible search
   - ../tests/perft.sh
@@ -84,5 +84,5 @@ script:
   # Sanitizer
   #
   # Use g++-8 as a proxy for having sanitizers, might need revision as they become available for more recent versions of clang/gcc
-  - if [[ "$COMPILER" == "g++-8" ]]; then make clean && make -j2  sanitize=undefined optimize=no debug=yes build > /dev/null && ../tests/instrumented.sh --sanitizer-undefined; fi
-  - if [[ "$COMPILER" == "g++-8" ]]; then make clean && make -j2 sanitize=thread    optimize=no debug=yes build > /dev/null && ../tests/instrumented.sh --sanitizer-thread; fi
+  - if [[ "$COMPILER" == "g++-8" ]]; then make clean && make -j2 ARCH=x86-64 sanitize=undefined optimize=no debug=yes build > /dev/null && ../tests/instrumented.sh --sanitizer-undefined; fi
+  - if [[ "$COMPILER" == "g++-8" ]]; then make clean && make -j2 ARCH=x86-64 sanitize=thread    optimize=no debug=yes build > /dev/null && ../tests/instrumented.sh --sanitizer-thread; fi
