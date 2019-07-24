@@ -45,7 +45,8 @@ matrix:
           sources: ['ubuntu-toolchain-r-test']
           packages: ['gcc', 'gcc-multilib', 'valgrind', 'expect', 'curl']
       env:
-        - COMP=gcc
+        - COMPILER=clang++-6.0
+        - COMP=clang
 
 branches:
   only:
