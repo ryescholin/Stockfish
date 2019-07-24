@@ -39,7 +39,7 @@ matrix:
 
 
     - os: linux-ppc64le
-      compiler: gcc
+      compiler: clang
       addons:
         apt:
           sources: ['ubuntu-toolchain-r-test']
