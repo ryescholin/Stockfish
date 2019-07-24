@@ -39,12 +39,13 @@ matrix:
 
 
     - os: linux-ppc64le
-      compiler: clang
+      compiler: gcc
       addons:
         apt:
           sources: ['ubuntu-toolchain-r-test']
-          packages: ['gcc', 'gcc-multilib', 'valgrind', 'expect', 'curl']
+          packages: ['g++-8', 'g++-8-multilib', 'g++-multilib', 'valgrind', 'expect', 'curl']
       env:
+        - COMPILER=g++-8
         - COMP=gcc
 
 branches:
@@ -86,3 +87,5 @@ script:
   # Use g++-8 as a proxy for having sanitizers, might need revision as they become available for more recent versions of clang/gcc
   - if [[ "$COMPILER" == "g++-8" ]]; then make clean && make -j2 ARCH=x86-64 sanitize=undefined optimize=no debug=yes build > /dev/null && ../tests/instrumented.sh --sanitizer-undefined; fi
   - if [[ "$COMPILER" == "g++-8" ]]; then make clean && make -j2 ARCH=x86-64 sanitize=thread    optimize=no debug=yes build > /dev/null && ../tests/instrumented.sh --sanitizer-thread; fi
+  - if [[ "$os" == "linux-ppc64le" ]]; then make clean && make -j2 ARCH=powerpc64le sanitize=thread    optimize=no debug=yes build > /dev/null && ../tests/instrumented.sh --sanitizer-thread; fi
+
